@@ -7,14 +7,16 @@ class ExampleDB:
         self.conn = sqlite3.connect('name.db')
         self.cursor = self.conn.cursor()
 
+    def view (self):
+        self.cursor.execute('''SELECT * FROM tab_1''')
+        k = self.cursor.fetchall()
+        print(k)
 
     def one_arg(self):
         self.cursor.execute('''INSERT INTO tab_1 (col_1) VALUES (3)''')
         self.conn.commit()
 
-        self.cursor.execute('''SELECT * FROM tab_1''')
-        k = self.cursor.fetchall()
-        print(k)
+        self.view()
 
     def two_arg(self):
         self.cursor.execute('''SELECT id FROM tab_1''')
@@ -22,9 +24,7 @@ class ExampleDB:
         self.cursor.execute('''DELETE FROM tab_1 WHERE id = ?''', (k[0]))
         self.conn.commit()
 
-        self.cursor.execute('''SELECT * FROM tab_1''')
-        k = self.cursor.fetchall()
-        print(k)
+        self.view()
 
     def three_arg(self):
         self.cursor.execute('''SELECT id FROM tab_1''')
@@ -32,9 +32,7 @@ class ExampleDB:
         self.cursor.execute('''UPDATE tab_1 SET col_1 = 77 WHERE id = ?''', (k[2]))
         self.conn.commit()
 
-        self.cursor.execute('''SELECT * FROM tab_1''')
-        k = self.cursor.fetchall()
-        print(k)
+        self.view()
 
 
     def create(self):
@@ -44,26 +42,24 @@ class ExampleDB:
             x = int(random.randint(1,9))
             self.cursor.execute('''INSERT INTO tab_1 (col_1) VALUES (?)''', (x,))
         self.conn.commit()
-        self.cursor.execute('''SELECT * FROM tab_1''')
-        k = self.cursor.fetchall()
-        print(k)
 
-    def argumenty(*args):
+        self.view()
+
+    def argumenty(self, *args):
         if len(args) == 1:
-            one_arg()
+            self.one_arg()
         if len(args) == 2 and type(args[1]) == int:
-            two_arg()
+            self.two_arg()
         if len(args) == 3 and type(args[2]) == int:
-            three_arg()
+            self.three_arg()
 
-    def view (self):
-        self.cursor.execute('''SELECT * FROM tab_1''')
-        k = self.cursor.fetchall()
-        print(k)
+
 
 
 
 a = ExampleDB()
-a.create()   #создание рандомной базы данных
-a.argumenty(1,2,3)
+#a.create()   #создание рандомной базы данных
 a.view()
+a.argumenty(1)
+a.argumenty(1,2)
+a.argumenty(1,2,3)
