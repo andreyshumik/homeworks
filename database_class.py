@@ -56,7 +56,14 @@ class ExampleDB:
         if len(args) == 3 and type(args[2]) == int:
             three_arg()
 
+    def view (self):
+        self.cursor.execute('''SELECT * FROM tab_1''')
+        k = self.cursor.fetchall()
+        print(k)
+
+
 
 a = ExampleDB()
-#  a.create()   #создание рандомной базы данных
+a.create()   #создание рандомной базы данных
 a.argumenty(1,2,3)
+a.view()
