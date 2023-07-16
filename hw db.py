@@ -25,6 +25,18 @@ def three_arg():
     cursor.execute('''UPDATE tab_1 SET col_1 = 77 WHERE id = 3''')
     conn.commit()
 
+def argumenty(*args):
+    if len(args) == 1:
+        one_arg()
+    if len(args) == 2 and type(args[1]) == int :
+        two_arg()
+    if len(args) == 3 and type(args[2]) == int:
+        three_arg()
+
+
+
 cursor.execute('''SELECT * FROM tab_1''')
 k = cursor.fetchall()
 print(k)
+
+argumenty(2,2)
